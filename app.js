@@ -9,7 +9,7 @@ const moment  = require('moment');
   let promises = [];
 
   // loop on url
-  for(let i = 0; i < urls.length && i < 2; i++)
+  for(let i = 0; i < urls.length; i++)
   {
     // random timeout
     let pTimeout = Math.floor(Math.random() * 10) + 2;
@@ -59,9 +59,9 @@ const moment  = require('moment');
       let bhers = [];
       elements.forEach(item => {
         bhers.push({
-            name: item.getElementsByTagName('td')[0].innerText,
-            phone: item.getElementsByTagName('td')[1].innerText,
-            address: item.getElementsByTagName('td')[2].innerText,
+          phone: item.getElementsByTagName('td')[0].innerText,
+          name: item.getElementsByTagName('td')[1].innerText,
+          address: item.getElementsByTagName('td')[2].innerText,
         })
       });
       return bhers
@@ -88,7 +88,7 @@ const moment  = require('moment');
     ];
     const options = {fields};
 
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({ headless: false });
     const page = await browser.newPage();
 
     // Parsing
@@ -97,12 +97,6 @@ const moment  = require('moment');
     const fileName = `bxh_${date.format('DDMMYYYY')}_${date.valueOf()}.csv`;
     const csv = `data:text/csv;charset=utf-8,${csvData}`;
     const encodedCSV = encodeURI(csv);
-
-    await page._client.send('Page.setDownloadBehavior', {
-      behavior: 'allow',
-      // This path must match the WORKSPACE_DIR in Step 1
-      downloadPath: '/home/browserless',
-    });
 
     const res = await page.evaluate((encodedCSV, fileName) => {
       const link = document.createElement("a");
