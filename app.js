@@ -135,4 +135,4 @@ const crawlBoomerListByPage = async (url, idx = 0) => {
 // ------------------
 // MAIN
 // ------------------
-crawlBoomerListByPage(`${BASE_URL}?page=417`);
+crawlBoomerListByPage(BASE_URL);
