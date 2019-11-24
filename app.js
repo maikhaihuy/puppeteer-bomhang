@@ -65,7 +65,7 @@ const downloadCSV = async () => {
       value: 'address',
     },
   ];
-  const options = { fields };
+  const options = { fields, header: false };
 
   // Parsing
   console.log('Write csv to file ...');
@@ -73,9 +73,8 @@ const downloadCSV = async () => {
   const csvData = await parseAsync(generalBoomerList, options);
   const date = moment();
   const fileName = `blacklist_${date.format('DDMMYYYY')}_${date.valueOf()}.csv`;
-  const csv = `data:text/csv;charset=utf-8,${csvData}`;
 
-  await fs.writeFile(fileName, csv, 'utf8', (err) => {
+  await fs.writeFile(fileName, csvData, 'utf8', (err) => {
     if (err) {
       console.log('Failed to write csv file: ', err);
     } else {
